@@ -1,7 +1,6 @@
 package com.mapbox.mapboxandroiddemo.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.mapbox.mapboxandroiddemo.MainActivity;
 import com.mapbox.mapboxandroiddemo.R;
 import com.mapbox.mapboxandroiddemo.model.ExampleItemModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -72,10 +71,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
       String imageUrl = context.getString(detailItem.getImageUrl());
 
       if (!imageUrl.isEmpty()) {
-
-        Uri uri = Uri.parse(imageUrl);
-        viewHolder.imageView.setImageURI(uri);
-
+        Picasso.with(context)
+          .load(imageUrl)
+          .into(viewHolder.imageView);
       } else {
         viewHolder.imageView.setImageDrawable(null);
       }
@@ -100,13 +98,13 @@ public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public TextView titleTextView;
     public TextView descriptionTextView;
-    public SimpleDraweeView imageView;
+    public ImageView imageView;
     public ImageView newIconImageView;
 
     public ViewHolder(final View itemView) {
       super(itemView);
 
-      imageView = (SimpleDraweeView) itemView.findViewById(R.id.example_image);
+      imageView = (ImageView) itemView.findViewById(R.id.example_image);
       titleTextView = (TextView) itemView.findViewById(R.id.example_title);
       descriptionTextView = (TextView) itemView.findViewById(R.id.example_description);
       newIconImageView = (ImageView) itemView.findViewById(R.id.new_icon_image_view);
