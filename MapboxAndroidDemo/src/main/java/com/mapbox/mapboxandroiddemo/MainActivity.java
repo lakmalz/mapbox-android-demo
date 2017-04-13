@@ -137,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       navigationView.setCheckedItem(R.id.nav_basics);
     }
 
+
+    Picasso.with(this).setIndicatorsEnabled(true);
+    Picasso.with(this).setLoggingEnabled(true);
+
   }
 
   @Override
