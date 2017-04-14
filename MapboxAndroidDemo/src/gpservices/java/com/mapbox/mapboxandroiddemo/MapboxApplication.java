@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.squareup.picasso.Picasso;
 
 public class MapboxApplication extends Application {
 
@@ -15,5 +16,13 @@ public class MapboxApplication extends Application {
       .setApplicationId(getString(R.string.firebase_app_id))
       .build()
     );
+
+    Picasso.with(this).setIndicatorsEnabled(true);
+    Picasso.with(this).setLoggingEnabled(true);
+
+
+
   }
+
+
 }

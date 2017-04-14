@@ -138,9 +138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    Picasso.with(this).setIndicatorsEnabled(true);
-    Picasso.with(this).setLoggingEnabled(true);
-
   }
 
   @Override
