@@ -3,6 +3,7 @@ package com.mapbox.mapboxandroiddemo.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 import com.mapbox.mapboxandroiddemo.MainActivity;
 import com.mapbox.mapboxandroiddemo.R;
 import com.mapbox.mapboxandroiddemo.model.ExampleItemModel;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
 
 public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -65,18 +69,53 @@ public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     if (holder.getItemViewType() == 0) {
-      ExampleItemModel detailItem = dataSource.get(position);
-      ViewHolder viewHolder = (ViewHolder) holder;
+      final ExampleItemModel detailItem = dataSource.get(position);
+      final ViewHolder viewHolder = (ViewHolder) holder;
 
       String imageUrl = context.getString(detailItem.getImageUrl());
 
       if (!imageUrl.isEmpty()) {
         Picasso.with(context)
           .load(imageUrl)
-          .into(viewHolder.imageView);
+          .networkPolicy(NetworkPolicy.OFFLINE)
+          .into(viewHolder.imageView, new Callback() {
+
+            @Override
+            public void onSuccess() {
+
+              Log.d("ExampleAdapter", "onSuccess: Success 1");
+            }
+
+            @Override
+            public void onError() {
+              //Try again online if cache failed
+              Picasso.with(context)
+                .load(detailItem.getImageUrl())
+                .error(R.color.mapbox_blue)
+                .into(viewHolder.imageView, new Callback() {
+
+                  @Override
+                  public void onSuccess() {
+
+                    Log.d("ExampleAdapter", "onSuccess: Success 2");
+                  }
+
+                  @Override
+                  public void onError() {
+                    Log.v("Picasso", "Could not fetch image");
+
+                  }
+                });
+            }
+
+
+          });
+
+
       } else {
         viewHolder.imageView.setImageDrawable(null);
       }
+
 
       if (detailItem.getShowNewIcon()) {
         viewHolder.newIconImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.new_icon));
