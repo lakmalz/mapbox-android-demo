@@ -77,7 +77,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
       if (!imageUrl.isEmpty()) {
         Picasso.with(context)
           .load(imageUrl)
+/*
           .networkPolicy(NetworkPolicy.OFFLINE)
+*/
           .into(viewHolder.imageView, new Callback() {
 
             @Override
@@ -102,7 +104,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                   @Override
                   public void onError() {
-                    Log.v("Picasso", "Could not fetch image");
+                    Log.v("ExampleAdapter", "Could not fetch image");
 
                   }
                 });
