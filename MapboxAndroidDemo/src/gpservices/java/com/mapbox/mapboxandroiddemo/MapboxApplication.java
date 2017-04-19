@@ -1,17 +1,15 @@
 package com.mapbox.mapboxandroiddemo;
 
 import android.app.Application;
-import android.os.Environment;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.squareup.picasso.Cache;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-
-import okhttp3.OkHttpClient;
 
 public class MapboxApplication extends Application {
 
@@ -24,12 +22,21 @@ public class MapboxApplication extends Application {
       .build()
     );
 
-    Picasso.Builder builder = new Picasso.Builder(this);
-    builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
-    Picasso built = builder.build();
-    built.setIndicatorsEnabled(true);
-    built.setLoggingEnabled(true);
-    Picasso.setSingletonInstance(built);
+
+    OkHttpClient picassoClient = new OkHttpClient();
+    picassoClient.interceptors().add(new LoggingInterceptor());
+    File cache = CacheUtils.createDefaultCacheDir(this);
+    picassoClient.setCache(new com.squareup.okhttp.Cache(cache, CacheUtils.calculateDiskCacheSize(cache)));
+
+    Picasso picasso = new Picasso.Builder(this)
+      .indicatorsEnabled(true)
+      .memoryCache(new LruCache(this))
+      .downloader(new OkHttpDownloader(picassoClient))
+      .build();
+
+
+    Picasso.setSingletonInstance(picasso);
+
   }
 
 
