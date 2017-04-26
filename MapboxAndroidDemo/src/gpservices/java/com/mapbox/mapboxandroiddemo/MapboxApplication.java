@@ -26,7 +26,7 @@ public class MapboxApplication extends Application {
     OkHttpClient picassoClient = new OkHttpClient();
     picassoClient.interceptors().add(new LoggingInterceptor());
     File cache = CacheUtils.createDefaultCacheDir(this);
-    picassoClient.setCache(new com.squareup.okhttp.Cache(cache, CacheUtils.calculateDiskCacheSize(cache)));
+//    picassoClient.setCache(new com.squareup.okhttp.Cache(cache, CacheUtils.calculateDiskCacheSize(cache)));
 
     Picasso picasso = new Picasso.Builder(this)
       .indicatorsEnabled(true)

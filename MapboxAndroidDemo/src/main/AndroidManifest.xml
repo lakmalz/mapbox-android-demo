@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -368,6 +368,14 @@
         <activity
             android:name=".examples.styles.GeoJsonClusteringActivity"
             android:label="@string/activity_style_data_clusters_title">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mapbox.mapboxandroiddemo.MainActivity"/>
+
+        </activity>
+        <activity
+            android:name=".examples.dds.StyleLineIdentityPropertyActivity"
+            android:label="@string/activity_dds_style_line_identity_property_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mapbox.mapboxandroiddemo.MainActivity"/>
